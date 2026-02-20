@@ -1,0 +1,24 @@
+Project Planning Phase
+Project Planning Template (Product Backlog, Sprint Planning, Stories, Story points)
+Date 19 January 2026
+Team ID : LTVIP2026TMIDS83701
+Project Name : Smart Sorting: Transfer learning for identifying Rotten Fruits and Vegetables
+Maximum Marks 5 Marks
+Product Backlog, Sprint Schedule, and Estimation (4 Marks)
+Use the below template to create product backlog and sprint schedule
+Sprint Functional User Story User Story / Task Story Points Priority Team
+Requirement (Epic) Number Members
+Sprint-1 Registration USN-1 As a user, I can register for the application by 2 High
+entering my email, password, and confirming
+my password.
+Sprint-1 USN-2 As a user, I will receive confirmation email once 1 High
+I have registered for the application
+Sprint-2 USN-3 As a user, I can register for the application 2 Low
+through Facebook
+Sprint-1 USN-4 As a user, I can register for the application 2 Medium
+through Gmail
+Sprint-1 Login USN-5 As a user, I can log into the application by 1 High
+entering email & password
+Dashboard
+
+
