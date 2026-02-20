@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Sorting - Fruit Classifier</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2ecc71;
+            --primary-dark: #27ae60;
+            --accent: #e74c3c;
+            --bg-dark: #1a1a2e;
+            --bg-card: #16213e;
+            --text-light: #eaeaea;
+            --text-muted: #a0a0b0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #0f3460 50%, var(--bg-dark) 100%);
+            min-height: 100vh;
+            color: var(--text-light);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), #3498db);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .card-upload {
+            background: rgba(22, 33, 62, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(46, 204, 113, 0.15);
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 520px;
+            width: 90%;
+            margin: 2rem auto;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card-upload:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(46, 204, 113, 0.15);
+        }
+
+        .upload-area {
+            border: 2px dashed rgba(46, 204, 113, 0.4);
+            border-radius: 14px;
+            padding: 2.5rem 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: rgba(46, 204, 113, 0.05);
+        }
+
+        .upload-area .icon {
+            font-size: 3rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .upload-area p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .upload-area input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        #preview-container {
+            display: none;
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        #preview-container img {
+            max-width: 100%;
+            max-height: 250px;
+            border-radius: 12px;
+            border: 2px solid rgba(46, 204, 113, 0.3);
+        }
+
+        .btn-classify {
+            display: block;
+            width: 100%;
+            margin-top: 1.5rem;
+            padding: 0.85rem;
+            font-size: 1.05rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-classify:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            box-shadow: 0 4px 20px rgba(46, 204, 113, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-classify:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .features {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 700px;
+            margin: 1rem auto 2rem;
+            padding: 0 1rem;
+        }
+
+        .feature-badge {
+            background: rgba(22, 33, 62, 0.7);
+            border: 1px solid rgba(46, 204, 113, 0.15);
+            border-radius: 10px;
+            padding: 0.6rem 1.2rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .feature-badge span {
+            color: var(--primary);
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero">
+        <h1>🍎 Smart Sorting</h1>
+        <p>Transfer Learning for Identifying Rotten Fruits and Vegetables</p>
+    </div>
+
+    <div class="features">
+        <div class="feature-badge"><span>🍏</span> Fresh Apple</div>
+        <div class="feature-badge"><span>🍌</span> Fresh Banana</div>
+        <div class="feature-badge"><span>🍊</span> Fresh Orange</div>
+        <div class="feature-badge"><span>🔴</span> Rotten Apple</div>
+        <div class="feature-badge"><span>🟤</span> Rotten Banana</div>
+        <div class="feature-badge"><span>🟠</span> Rotten Orange</div>
+    </div>
+
+    <div class="card-upload">
+        <form action="/upload" method="POST" enctype="multipart/form-data" id="uploadForm">
+            <div class="upload-area" id="dropArea">
+                <div class="icon">📤</div>
+                <p><strong>Click to upload</strong> or drag and drop<br>PNG, JPG, JPEG supported</p>
+                <input type="file" name="file" id="fileInput" accept="image/*" required>
+            </div>
+
+            <div id="preview-container">
+                <img id="preview" src="#" alt="Preview">
+            </div>
+
+            <button type="submit" class="btn-classify" id="classifyBtn" disabled>
+                🔍 Classify Fruit
+            </button>
+        </form>
+    </div>
+
+    <footer>
+        &copy; 2026 Smart Sorting &mdash; Team LTVIP2026TMIDS83701
+    </footer>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const preview = document.getElementById('preview');
+        const previewContainer = document.getElementById('preview-container');
+        const classifyBtn = document.getElementById('classifyBtn');
+        const dropArea = document.getElementById('dropArea');
+
+        fileInput.addEventListener('change', function () {
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                    previewContainer.style.display = 'block';
+                    classifyBtn.disabled = false;
+                };
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+
+        // Drag & drop visual feedback
+        ['dragenter', 'dragover'].forEach(evt => {
+            dropArea.addEventListener(evt, e => {
+                e.preventDefault();
+                dropArea.style.borderColor = '#2ecc71';
+                dropArea.style.background = 'rgba(46,204,113,0.08)';
+            });
+        });
+        ['dragleave', 'drop'].forEach(evt => {
+            dropArea.addEventListener(evt, e => {
+                e.preventDefault();
+                dropArea.style.borderColor = 'rgba(46,204,113,0.4)';
+                dropArea.style.background = 'transparent';
+            });
+        });
+    </script>
+</body>
+</html>
